@@ -11,28 +11,30 @@ WHITE    		= "\033[37m"    # White
 
 # Compiler
 NAME			= minishell
-CC				= cc
+CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror
+CFLAGS_DEBUG	= CFLAGS -g3
 MAKE			= make -sC
 MKDIR			= mkdir -p
 RM				= rm -rf
 
-# Libs
-LIBFT_DIR		= libft
-LIBFT			= $(LIBFT_DIR)/libft.a
-LINKER  	    = -lft -L $(LIBFT_DIR)
-
 # Includes
-INCLUDES_DIR 	= includes
-INCLUDES_FLAG 	= -I$(INCLUDES_DIR) \
-				  -I$(LIBFT_DIR) \
-
-INCLUDE_FILES	= $(wildcard $(INCLUDES_DIR)/*.h) \
-				  $(LIBFT_DIR)/libft.h \
+INCLUDE_DIR 	= include
+INCLUDE_FLAG 	= -I$(INCLUDE_DIR)
+INCLUDE_FILES	= $(wildcard $(INCLUDES_DIR)/*.h)
 
 # Sources
 SRCS_DIR		= srcs/
 SRC_FILES		= main.c \
+
+# Libs
+LIBFT_DIR		= libft
+LIBFT			= $(LIBFT_DIR)/libft.a
+INCLUDE_FLAG	+= -I$(LIBFT_DIR)
+INCLUDE_FILES	+= $(LIBFT_DIR)/libft.h
+LINKER  	    = -lft -L $(LIBFT_DIR)
+
+
 
 # Objects
 OBJS_DIR		= objs/
