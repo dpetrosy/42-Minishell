@@ -10,9 +10,9 @@ CYAN     		= "\033[36m"    # Cyan
 WHITE    		= "\033[37m"    # White
 
 # Compiler
-NAME			= minishell
+EXEC			= minishell
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -MMD -MP
 CFLAGS_DEBUG	= CFLAGS -g3
 MAKE			= make -sC
 MKDIR			= mkdir -p
@@ -20,52 +20,56 @@ RM				= rm -rf
 
 # Includes
 INCLUDE_DIR 	= include
-INCLUDE_FLAG 	= -I$(INCLUDE_DIR)
-INCLUDE_FILES	= $(wildcard $(INCLUDES_DIR)/*.h)
+INCLUDES		= -I$(INCLUDE_DIR)
 
 # Sources
-SRCS_DIR		= srcs/
+SRC_DIR			= src
 SRC_FILES		= main.c \
+				  debug.c \
+				  lexer.c \
+				  parser.c \
+				  utils.c \
+				  lexer_utils.c
 
 # Libs
 LIBFT_DIR		= libft
 LIBFT			= $(LIBFT_DIR)/libft.a
-INCLUDE_FLAG	+= -I$(LIBFT_DIR)
-INCLUDE_FILES	+= $(LIBFT_DIR)/libft.h
-LINKER  	    = -lft -L $(LIBFT_DIR)
+INCLUDES		+= -I$(LIBFT_DIR)
+LDLIBS  	    = -lft -lreadline -L$(LIBFT_DIR)
 
-
-
-# Objects
-OBJS_DIR		= objs/
+# Object files
+OBJ_DIR			= objs
 OBJ_FILES		= $(SRC_FILES:.c=.o)
-OBJS			= $(addprefix $(OBJS_DIR), $(OBJ_FILES))
+OBJS			= $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 
+# Dependencies
+DEPS			= $(OBJ_FILES:.o=.d)
+-include		$(DEPS)
 
-all : $(LIBFT) $(OBJS_DIR) $(NAME)
+all : $(LIBFT) $(OBJ_DIR) $(EXEC)
 
 $(LIBFT) :
 	@echo $(CYAN) " - Making libft..." $(RESET)
 	@$(MAKE) $(LIBFT_DIR)
 	@echo $(YELLOW) " - Made libft!" $(RESET)
 
-$(OBJS_DIR) :
-	@$(MKDIR) $(OBJS_DIR)
+$(OBJ_DIR) :
+	@$(MKDIR) $(OBJ_DIR)
 
-$(NAME) : $(OBJS) Makefile
-	@echo $(GREEN) " - Compiling $(NAME)..." $(RESET)
-	@$(CC) $(CFLAGS) $(OBJS) $(LINKER) -o $(NAME)
+$(EXEC) : $(OBJS) Makefile
+	@echo $(GREEN) " - Compiling $(EXEC)..." $(RESET)
+	@$(CC) $(CFLAGS) $(OBJS) $(LDLIBS) -o $(EXEC)
 	@echo $(YELLOW) " - Compiling FINISHED" $(RESET)
 
-$(OBJS_DIR)%.o : $(SRCS_DIR)%.c $(INCLUDE_FILES)
-	@$(CC) $(CFLAGS) $(INCLUDES_FLAG) -c $< -o $@
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean :
-	@$(RM) $(OBJS_DIR)
+	@$(RM) $(OBJ_DIR)
 	@echo $(RED) " - Cleaned!" $(RESET)
 
 fclean : clean
-	@$(RM) $(NAME)
+	@$(RM) $(EXEC)
 	@$(MAKE) $(LIBFT_DIR) fclean
 	@echo $(RED) " - Full Cleaned!" $(RESET)
 

@@ -100,7 +100,7 @@ void    lexer(char *input, t_stream *stream)
 	i = -1;
     while (input[++i])
     {
-        if (ft_isspace(input[i]))
+        if (is_space(input[i]))
             continue;
 		if (input[i] == '&' || input[i] == '|')
 			i = add_bool_operator(stream, input, i);
