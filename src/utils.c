@@ -22,5 +22,4 @@ void	init_engine(t_engine *engine, char **envp)
 	engine->envp = envp;
 	engine->stream.head = NULL;
 	engine->stream.tail = NULL;
-	engine->root = NULL;
 }

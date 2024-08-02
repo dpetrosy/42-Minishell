@@ -16,19 +16,8 @@ char *get_token_type_str(t_token_type type)
 		return "TOKEN_HEREDOC";
 	else if (type == TOKEN_ENV_VAR)
 		return "TOKEN_ENV_VAR";
-	else if (type == TOKEN_AND)
-		return "TOKEN_AND";
-	else if (type == TOKEN_OR)
-		return "TOKEN_OR";
 	else
-		return "ANKAPUTYUN";
-	// else if (type == TOKEN_QUOTE_SINGLE)
-	// 	return "TOKEN_QUOTE_SINGLE";
-	// else if (type == TOKEN_QUOTE_DOUBLE)
-	// 	return "TOKEN_QUOTE_DOUBLE";
-	// else if (type == TOKEN_WILDCARD)
-	// 	return "TOKEN_WILDCARD";
-
+		return "UNDEFINED";
 }
 
 void debug_print_tokens(t_stream *stream)
