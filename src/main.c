@@ -11,15 +11,22 @@ int main(int argc, char **argv, char **envp)
 		error_message("Minishell takes no argument! \n", false);
 	if (!isatty(STDIN_FILENO))
 		error_message("Minishell isn't run in interactive mode!\n", false);
-
 	init_engine(&engine, envp);
     while (true)
     {
 		input = readline("Minishell$ ");
 		if (!input)
 			break;
-		lexer(input, &(engine.stream));
+		if (!lexer(input, &(engine.stream)))
+		{
+			free(input);
+			continue;
+		}
+		add_history(input);
 		free(input);
+
+
+
 		// parser(&engine);
 
 		// *********** Testing *********** //

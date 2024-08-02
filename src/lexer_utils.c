@@ -12,7 +12,10 @@ void	add_token(t_stream *stream, t_token_type type, char *value)
 
 	token = (t_token *)malloc(sizeof(t_token));
     if (!token)
-		clear_token_stream(stream, "Failed to allocate memory for token!\n");
+    {
+		clear_token_stream(stream, NULL);
+        error_message("Failed to allocate memory for token!\n", false);
+    }
     token->type = type;
     token->next = NULL;
 	if (type != TOKEN_WORD)
@@ -22,7 +25,8 @@ void	add_token(t_stream *stream, t_token_type type, char *value)
     if (!token->value)
     {
         free(token);
-		clear_token_stream(stream, "Failed to set token value!\n");
+		clear_token_stream(stream, NULL);
+        error_message("Failed to set token value!\n", false);
     }
     if (!stream->tail)
         stream->head = token;
@@ -38,7 +42,6 @@ void    clear_token_stream(t_stream *stream, char *text)
 
     if (!stream)
         return;
-
     head = stream->head;
     while (head)
     {
@@ -50,5 +53,5 @@ void    clear_token_stream(t_stream *stream, char *text)
     stream->head = NULL;
     stream->tail = NULL;
     if (text)
-        error_message(text, false);
+        ft_putstr_fd(text, STDERR_FILENO);
 }

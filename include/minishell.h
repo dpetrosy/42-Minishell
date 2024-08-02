@@ -43,11 +43,10 @@ void	error_message(char *text, bool is_errno);
 void	init_engine(t_engine *engine, char **envp);
 
 // lexer.c
-int     add_bool_operator(t_stream *stream, char *input, int i);
 int     add_quote(t_stream *stream, char *input, int i);
 int     add_redirect(t_stream *stream, char *input, int i);
 int     add_env_var(t_stream *stream, char *input, int i);
-void    lexer(char *input, t_stream *stream);
+bool    lexer(char *input, t_stream *stream);
 
 // lexer_utils.c
 bool	is_token_type(char c);

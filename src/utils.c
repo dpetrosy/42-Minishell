@@ -2,10 +2,8 @@
 
 bool	is_space(char c)
 {
-    if (c == ' ' || c == '\t' || c == '\n'
-		|| c == '\v' || c == '\f' || c == '\r')
-        return (true);
-    return (false);
+    return (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r');
 }
 
 void	error_message(char *text, bool is_errno)
@@ -13,7 +11,7 @@ void	error_message(char *text, bool is_errno)
 	if (is_errno)
 		perror(text);
 	else if (text)
-		ft_putstr_fd(text, 2);
+		ft_putstr_fd(text, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 

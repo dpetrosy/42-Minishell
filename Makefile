@@ -12,7 +12,7 @@ WHITE    		= "\033[37m"    # White
 # Compiler
 EXEC			= minishell
 CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror -MMD -MP
+CFLAGS			= -Wall -Wextra -Werror -MMD -MP -g3
 CFLAGS_DEBUG	= CFLAGS -g3
 MAKE			= make -sC
 MKDIR			= mkdir -p
